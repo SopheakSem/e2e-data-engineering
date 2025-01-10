@@ -47,20 +47,33 @@ The project is designed with the following components:
 
 ## Getting Started
 
-1. Clone the repository:
+1. Set up ENV
+    python3 -m venv myenv                                       
+    source myenv/bin/activate
+    pip install kafka-python apache-airflow pyspark
+
+2. Clone the repository:
     ```bash
     git clone https://github.com/airscholar/e2e-data-engineering.git
     ```
 
-2. Navigate to the project directory:
+3. Navigate to the project directory:
     ```bash
     cd e2e-data-engineering
     ```
 
-3. Run Docker Compose to spin up the services:
+4. Run Docker Compose to spin up the services:
     ```bash
-    docker-compose up
+    docker compose up -d
     ```
+5. secret key Same
+    1. schedule 
+        secret_key = EKDzN+fbjb9j/K/MFVa6IA==
+    2. Webserver
+        secret_key = GWq3I6xq/SCSBfkUWRyvfQ==
+
+6. Submit Spark
+    spark-submit --master spark://localhost:7077 spark_stream.py
 
 For more detailed instructions, please check out the video tutorial linked below.
 
