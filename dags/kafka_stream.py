@@ -41,6 +41,13 @@ def stream_data():
     from kafka import KafkaProducer
     import time
     import logging
+    
+    class UUIDEncoder(json.JSONEncoder):
+        def default(self, obj):
+            if isinstance(obj, uuid.UUID):
+                return str(obj)
+            return super().default(obj)
+
 
     producer = KafkaProducer(bootstrap_servers=['broker:29092'], max_block_ms=5000)
     curr_time = time.time()
@@ -52,14 +59,14 @@ def stream_data():
             res = get_data()
             res = format_data(res)
 
-            producer.send('users_created', json.dumps(res).encode('utf-8'))
+            producer.send('users_created', json.dumps(res, cls=UUIDEncoder).encode('utf-8'))
         except Exception as e:
             logging.error(f'An error occured: {e}')
             continue
 
 with DAG('user_automation',
          default_args=default_args,
-         schedule_interval='@daily',
+         schedule='@daily',
          catchup=False) as dag:
 
     streaming_task = PythonOperator(
