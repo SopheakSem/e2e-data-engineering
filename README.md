@@ -75,6 +75,12 @@ The project is designed with the following components:
 6. Submit Spark
     spark-submit --master spark://localhost:7077 spark_stream.py
 
+7. Verify cassandra
+    
+    docker exec -it cassandra cqlsh -u cassandra -p cassandra localhost 9042
+
+    select * from spark_streams.created_users
+
 For more detailed instructions, please check out the video tutorial linked below.
 
 ## Watch the Video Tutorial
